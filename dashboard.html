@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .dashboard-header h1 {
+            color: #6D28D9;
+            font-size: 36px;
+            margin-bottom: 10px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        .dashboard-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(139, 92, 246, 0.4);
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        .welcome-message {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .welcome-message h2 {
+            color: #6D28D9;
+            font-size: 28px;
+            margin-bottom: 10px;
+            animation: fadeInDown 0.8s ease-out 0.2s both;
+        }
+        
+        .welcome-message p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .user-info {
+            background: linear-gradient(135deg, #8B5CF6 0%, #C4B5FD 100%);
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            animation: fadeInUp 0.6s ease-out 0.4s both;
+        }
+        
+        .user-info h3 {
+            margin-bottom: 10px;
+        }
+        
+        .logout-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: white;
+            color: #8B5CF6;
+            border: 2px solid #8B5CF6;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .logout-button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #8B5CF6 0%, #C4B5FD 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <div class="cake-icon" style="font-size: 80px; margin-bottom: 20px;">🎂</div>
+            <h1>Chào Mừng Bạn!</h1>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="welcome-message">
+                <h2>Đăng Nhập Thành Công! 🎉</h2>
+                <p>Bạn đã đăng nhập vào hệ thống thành công</p>
+            </div>
+            
+            <div class="user-info">
+                <h3>Thông Tin Tài Khoản</h3>
+                <p id="usernameDisplay">Tên đăng nhập: <span id="username"></span></p>
+            </div>
+            
+            <div style="text-align: center;">
+                <a href="index.html" class="logout-button">Đăng Xuất</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Lấy thông tin username từ localStorage hoặc URL
+        const rememberedUsername = localStorage.getItem('rememberedUsername');
+        const urlParams = new URLSearchParams(window.location.search);
+        const usernameFromUrl = urlParams.get('username');
+        
+        const username = usernameFromUrl || rememberedUsername || 'Người dùng';
+        
+        // Hiển thị username
+        document.getElementById('username').textContent = username;
+    </script>
+</body>
+</html>
+

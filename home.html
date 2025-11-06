@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ - Quản Lý Bánh Ngọt</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .home-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .home-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .home-header h1 {
+            color: #6D28D9;
+            font-size: 36px;
+            margin-bottom: 10px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        .home-header p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .form-section,
+        .products-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(139, 92, 246, 0.4);
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        .section-title {
+            color: #6D28D9;
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeInDown 0.6s ease-out 0.2s both;
+        }
+        
+        .create-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #C4B5FD;
+        }
+        
+        .submit-button {
+            padding: 16px;
+            background: linear-gradient(135deg, #8B5CF6 0%, #C4B5FD 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .submit-button::before {
+            content: '✨';
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            transform: translateY(-50%);
+            font-size: 20px;
+            animation: sparkleMove 3s ease-in-out infinite;
+        }
+        
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+        }
+        
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .products-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .product-item {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(196, 181, 253, 0.1) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 4px solid #8B5CF6;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .product-item:hover {
+            transform: translateX(5px) scale(1.02);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+        
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        
+        .product-name {
+            color: #6D28D9;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .product-category {
+            display: inline-block;
+            background: linear-gradient(135deg, #8B5CF6 0%, #C4B5FD 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+        }
+        
+        .product-description {
+            color: #666;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .product-price {
+            color: #8B5CF6;
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8B5CF6 0%, #C4B5FD 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-small {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-edit {
+            background: linear-gradient(135deg, #8B5CF6 0%, #C4B5FD 100%);
+            color: white;
+        }
+        
+        .btn-delete {
+            background: #f44336;
+            color: white;
+        }
+        
+        .btn-small:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        
+        .empty-state-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .nav-button {
+            padding: 12px 30px;
+            background: white;
+            color: #8B5CF6;
+            border: 2px solid #8B5CF6;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-button:hover {
+            background: linear-gradient(135deg, #8B5CF6 0%, #C4B5FD 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .product-image-preview {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #8B5CF6 0%, #C4B5FD 100%);
+            position: relative;
+        }
+        
+        .product-image-preview::before {
+            content: '🍰';
+            position: absolute;
+            font-size: 50px;
+            opacity: 0.2;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: bounce 3s ease-in-out infinite;
+        }
+        
+        .product-image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-creator {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .creator-info,
+        .product-date {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .creator-label,
+        .date-label {
+            font-weight: 600;
+        }
+        
+        .creator-name {
+            color: #6D28D9;
+            font-weight: 600;
+        }
+        
+        .pagination {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(139, 92, 246, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .pagination-info {
+            color: #666;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .pagination-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .pagination-btn {
+            padding: 8px 16px;
+            border: 2px solid #8B5CF6;
+            background: white;
+            color: #8B5CF6;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 40px;
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #8B5CF6 0%, #C4B5FD 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .pagination-btn.active {
+            background: linear-gradient(135deg, #8B5CF6 0%, #C4B5FD 100%);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination-dots {
+            padding: 0 8px;
+            color: #999;
+        }
+        
+        .filter-section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        .filter-label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        .filter-select:focus {
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+        
+        .tabs-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(139, 92, 246, 0.2);
+        }
+        
+        .tab-btn {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            top: 2px;
+        }
+        
+        .tab-btn:hover {
+            color: #8B5CF6;
+        }
+        
+        .tab-btn.active {
+            color: #6D28D9;
+            border-bottom-color: #8B5CF6;
+        }
+        
+        .product-item {
+            cursor: pointer;
+        }
+        
+        .product-item:hover {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(196, 181, 253, 0.15) 100%);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        @keyframes sparkleMove {
+            0% {
+                left: -20px;
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                left: calc(100% + 20px);
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="home-container">
+        <div class="home-header">
+            <div class="cake-icon" style="font-size: 80px; margin-bottom: 20px;">🍰</div>
+            <h1>Quản Lý Bánh Ngọt</h1>
+            <p>Tạo và quản lý sản phẩm bánh ngọt của bạn</p>
+        </div>
+        
+        <div id="messageContainer"></div>
+        
+        <div class="content-wrapper">
+            <!-- Form tạo sản phẩm -->
+            <div class="form-section">
+                <h2 class="section-title">
+                    <span>➕</span>
+                    <span>Tạo Bánh Ngọt Mới</span>
+                </h2>
+                
+                <form id="createProductForm" class="create-form">
+                    <div class="form-group">
+                        <label for="productName">Tên bánh *</label>
+                        <input 
+                            type="text" 
+                            id="productName" 
+                            name="name" 
+                            placeholder="Ví dụ: Bánh Socola"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productCategory">Danh mục *</label>
+                        <select id="productCategory" name="category" required>
+                            <option value="">Chọn danh mục</option>
+                            <option value="Bánh ngọt">Bánh ngọt</option>
+                            <option value="Bánh kem">Bánh kem</option>
+                            <option value="Bánh sinh nhật">Bánh sinh nhật</option>
+                            <option value="Bánh cưới">Bánh cưới</option>
+                            <option value="Bánh mì">Bánh mì</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productPrice">Giá (VNĐ) *</label>
+                        <input 
+                            type="number" 
+                            id="productPrice" 
+                            name="price" 
+                            placeholder="50000"
+                            min="0"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productImage">Link hình ảnh</label>
+                        <input 
+                            type="url" 
+                            id="productImage" 
+                            name="image" 
+                            placeholder="https://example.com/cake.jpg"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productDescription">Mô tả</label>
+                        <textarea 
+                            id="productDescription" 
+                            name="description" 
+                            placeholder="Mô tả về bánh ngọt..."
+                        ></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-button" id="submitButton">
+                        <span>Tạo Bánh Ngọt</span>
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Danh sách sản phẩm -->
+            <div class="products-section">
+                <!-- Tabs để chuyển đổi giữa "Tất cả" và "Bánh của tôi" -->
+                <div class="tabs-section">
+                    <button class="tab-btn active" onclick="ProductManager.switchTab('all')" id="tabAll">
+                        📋 Tất cả bánh
+                    </button>
+                    <button class="tab-btn" onclick="ProductManager.switchTab('my')" id="tabMy">
+                        👤 Bánh của tôi
+                    </button>
+                </div>
+                
+                <h2 class="section-title" id="sectionTitle">
+                    <span>📋</span>
+                    <span>Danh Sách Bánh Ngọt</span>
+                </h2>
+                
+                <!-- Bộ lọc theo loại (chỉ hiển thị khi tab "Tất cả") -->
+                <div class="filter-section" id="filterSection">
+                    <label for="filterType" class="filter-label">Lọc theo loại:</label>
+                    <select id="filterType" class="filter-select" onchange="ProductManager.filterByType(this.value)">
+                        <option value="">Tất cả loại</option>
+                        <option value="Bánh ngọt">Bánh ngọt</option>
+                        <option value="Bánh kem">Bánh kem</option>
+                        <option value="Bánh sinh nhật">Bánh sinh nhật</option>
+                        <option value="Bánh cưới">Bánh cưới</option>
+                        <option value="Bánh mì">Bánh mì</option>
+                    </select>
+                </div>
+                
+                <div id="productsList" class="products-list">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🍰</div>
+                        <p>Chưa có sản phẩm nào</p>
+                        <p style="font-size: 12px; margin-top: 5px;">Tạo sản phẩm đầu tiên của bạn!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-buttons">
+            <a href="index.html" class="nav-button">Đăng xuất</a>
+        </div>
+    </div>
+    
+    <script src="data.js"></script>
+    <script src="api.js"></script>
+    <script src="home.js"></script>
+</body>
+</html>
+
